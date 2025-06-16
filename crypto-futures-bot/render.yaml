@@ -1,12 +1,10 @@
-
 services:
   - type: web
-    name: crypto-futures-bot
-    runtime: python
+    name: futures-signals-bot
+    env: python
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: python3 main.py
     envVars:
       - key: TOKEN
-        value: YOUR_TELEGRAM_BOT_TOKEN
       - key: CHAT_ID
-        value: 5919952205
-    buildCommand: pip install -r requirements.txt
-    startCommand: python main.py

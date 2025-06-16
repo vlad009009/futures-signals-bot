@@ -1,5 +1,0 @@
-pandas
-aisogram
-pandas-ta
-requests
-aiogram

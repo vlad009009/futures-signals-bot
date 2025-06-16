@@ -7,4 +7,6 @@ services:
     startCommand: python3 main.py
     envVars:
       - key: TOKEN
+        value: ""
       - key: CHAT_ID
+        value: ""

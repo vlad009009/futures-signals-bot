@@ -1,4 +1,4 @@
-from aisogram import Bot, Dispatcher, types
+from aiogram import Bot, Dispatcher, types
 
 BOT_TOKEN = "твой_токен_бота"  # Замени на свой реальный токен
 

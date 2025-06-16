@@ -1,28 +1,37 @@
-# main.py
-
-import os
 import asyncio
-from aiogram import Bot, Dispatcher
+import logging
+import os
+from aiogram import Bot, Dispatcher, types
+from aiogram.enums import ParseMode
 from aiogram.types import Message
-from aiogram.filters import Command
+from aiogram.utils.token import validate_token
 
-# Получаем токен из переменной окружения
+# Загружаем токен из переменных окружения
 BOT_TOKEN = os.getenv("BOT_TOKEN")
 
-# Проверка, если токен не найден
-if not BOT_TOKEN:
-    raise ValueError("❌ Переменная окружения BOT_TOKEN не найдена!")
+# Проверяем валидность токена (важно для Render)
+try:
+    validate_token(BOT_TOKEN)
+except Exception as e:
+    raise ValueError("❌ BOT_TOKEN is invalid!") from e
 
-bot = Bot(token=BOT_TOKEN)
+# Включаем логирование
+logging.basicConfig(level=logging.INFO)
+
+# Инициализируем бота и диспетчер
+bot = Bot(token=BOT_TOKEN, parse_mode=ParseMode.HTML)
 dp = Dispatcher()
 
-@dp.message(Command("start"))
-async def start_handler(message: Message):
-    await message.answer("✅ Бот работает!")
+# Обработчик команды /start
+@dp.message(commands=["start"])
+async def start_command(message: Message):
+    await message.answer("✅ Бот запущен и работает на Render!")
 
+# Главная функция запуска
 async def main():
-    print("🚀 Бот запущен...")
+    print("🚀 Бот запущен через polling...")
     await dp.start_polling(bot)
 
+# Точка входа
 if __name__ == "__main__":
     asyncio.run(main())

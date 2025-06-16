@@ -1,17 +1,28 @@
-from aiogram import Bot, Dispatcher, types
+# main.py
 
-BOT_TOKEN = "твой_токен_бота"  # Замени на свой реальный токен
+import os
+import asyncio
+from aiogram import Bot, Dispatcher
+from aiogram.types import Message
+from aiogram.filters import Command
+
+# Получаем токен из переменной окружения
+BOT_TOKEN = os.getenv("BOT_TOKEN")
+
+# Проверка, если токен не найден
+if not BOT_TOKEN:
+    raise ValueError("❌ Переменная окружения BOT_TOKEN не найдена!")
 
 bot = Bot(token=BOT_TOKEN)
-dp = Dispatcher(bot)
+dp = Dispatcher()
 
-@dp.message_handler(commands=['start', 'help'])
-async def send_welcome(message: types.Message):
-    await message.reply("Привет! Я бот для сигналов по фьючерсам OKX.")
+@dp.message(Command("start"))
+async def start_handler(message: Message):
+    await message.answer("✅ Бот работает!")
 
 async def main():
-    await dp.start_polling()
+    print("🚀 Бот запущен...")
+    await dp.start_polling(bot)
 
 if __name__ == "__main__":
-    import asyncio
     asyncio.run(main())
